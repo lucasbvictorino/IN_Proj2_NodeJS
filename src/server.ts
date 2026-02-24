@@ -1,12 +1,12 @@
-import { app } from "./app.js";
+import { app } from './app.js'
+import { env } from './env/index.js'
 
-const host = '0.0.0.0';
-const port = 3333;
-
-app.listen({
-    host,
-    port,
-}).then(() => {
-    const url = `https://localhost:${port}`
-    console.log(`HTTP Server Running at ${url}`);
-})
+app
+  .listen({
+    host: env.HOST,
+    port: env.PORT,
+  })
+  .then(() => {
+    const url = `https://localhost:${env.PORT}`
+    console.log(`HTTP Server Running at ${url}`)
+  })
