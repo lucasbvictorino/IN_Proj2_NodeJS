@@ -6,8 +6,8 @@ POST {{apiUrl}}/users HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Lucasblablabal",
-    "email": "lucasblablabla@email.com",
+    "name": "LucasV",
+    "email": "lucasaaa@email.com",
     "password": "senha123"
 }
 
