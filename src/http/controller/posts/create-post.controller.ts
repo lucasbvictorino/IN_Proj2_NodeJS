@@ -7,18 +7,13 @@ import { PostPresenter } from "../presenters/post-presenter.js";
 export async function createPost(
     request: FastifyRequest, reply: FastifyReply) {
     try {
-        const createPostParamsSchema = z.object({
-            authorPublicId: z.string(),
-        })
-
-        const { authorPublicId } = createPostParamsSchema.parse(request.params)
-
         const createPostBodySchema = z.object({
             title: z.string(),
             content: z.string(),
+            authorPublicId: z.string(),
         })
 
-        const { title, content } = createPostBodySchema.parse(request.body)
+        const { title, content, authorPublicId } = createPostBodySchema.parse(request.body)
 
         const createPostUseCase = makeCreatePost()
 
