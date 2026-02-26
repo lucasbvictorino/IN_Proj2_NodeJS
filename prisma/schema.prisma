@@ -13,10 +13,10 @@ datasource db {
   provider = "postgresql"
 }
 
-// enum USER_ROLE {
-//   ADMIN
-//   DEFAULT
-// }
+enum USER_ROLE {
+  ADMIN
+  DEFAULT
+}
 
 model User {
   id Int @id @default(autoincrement())
@@ -26,8 +26,12 @@ model User {
   email String @unique
   passwordHash String @map("password_hash")
   profilePicture String? @map("profile_picture")
+  role USER_ROLE @default(DEFAULT)
 
   posts Post[]
+  comments Comment[]
+  likes Like[]
+
   @@map("users")
 }
 
@@ -42,5 +46,41 @@ model Post {
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId Int @map("author_id")
 
+  comments Comment[]
+  likes Like[]
+
   @@map("posts")
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  publicID String @unique @default(uuid(7)) @map("public_id")
+
+  content String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int @map("author_id")
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int @map("post_id")
+
+  likes Like[]
+
+}
+
+model Like {
+  id Int @id @default(autoincrement())
+  publicID String @unique @default(uuid(7)) @map("public_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int @map("user_id")
+
+  post Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int? @map("post_id")
+
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId Int? @map("comment_id")
 }
