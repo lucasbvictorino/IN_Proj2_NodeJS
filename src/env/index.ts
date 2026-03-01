@@ -9,6 +9,7 @@ const envSchema = z.object({
   HOST: z.string().default('0.0.0.0'),
   DATABASE_URL: z.string(),
   HASH_SALT_ROUNDS: z.coerce.number().int().min(1).default(10),
+  JWT_SECRET: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)
