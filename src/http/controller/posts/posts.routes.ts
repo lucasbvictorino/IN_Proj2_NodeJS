@@ -5,6 +5,7 @@ import { getPost } from "./get-post.controller.js";
 import { updatePost } from "./update-post.controller.js";
 import { deletePost } from "./delete-post.controller.js";
 import { verifyJwt } from "@/http/middlewares/verify-jwt.js";
+import { createComment } from "../comments/create-comment.controller.js";
 
 export async function postsRoutes(app: FastifyInstance) {
     app.post('/', { onRequest: [verifyJwt] }, createPost)
@@ -12,4 +13,8 @@ export async function postsRoutes(app: FastifyInstance) {
     app.get('/:publicID', getPost)
     app.patch('/:publicID', { onRequest: [verifyJwt] }, updatePost)
     app.delete('/:publicID', { onRequest: [verifyJwt] }, deletePost)
+
+    //comments
+    app.post('/:publicID/comments', { onRequest: [verifyJwt] }, createComment)
+
 }
