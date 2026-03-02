@@ -7,6 +7,8 @@ import { deletePost } from "./delete-post.controller.js";
 import { verifyJwt } from "@/http/middlewares/verify-jwt.js";
 import { createComment } from "../comments/create-comment.controller.js";
 import { createPostLike } from "../likes/create-like.controller.js";
+import { getCommentsByPost } from "../comments/get-comments-by-post.controller.js";
+import { getLikesByPost } from "../likes/get-likes-by-post.controller.js";
 
 export async function postsRoutes(app: FastifyInstance) {
     app.post('/', { onRequest: [verifyJwt] }, createPost)
@@ -17,8 +19,9 @@ export async function postsRoutes(app: FastifyInstance) {
 
     //comments
     app.post('/:publicID/comments', { onRequest: [verifyJwt] }, createComment)
+    app.get('/:publicID/comments', getCommentsByPost)
 
     //likes
     app.post('/:publicID/likes', { onRequest: [verifyJwt] }, createPostLike)
-
+    app.get('/:publicID/likes', getLikesByPost)
 }

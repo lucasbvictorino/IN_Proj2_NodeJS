@@ -17,7 +17,6 @@ export async function usersRoutes(app: FastifyInstance) {
 
     app.get('/:publicID', getUser)
     app.get('/', listUsers)
-    // app.get('/', listUsers)
     app.delete('/:publicID', { onRequest: [verifyJwt, verifyUserRole(['ADMIN'])] }, deleteUser)
     app.patch('/:publicID', { onRequest: [verifyJwt, verifyUserRole(['ADMIN'])] }, updateUser)
 

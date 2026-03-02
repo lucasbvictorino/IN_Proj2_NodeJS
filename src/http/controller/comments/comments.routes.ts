@@ -5,6 +5,7 @@ import { verifyJwt } from "@/http/middlewares/verify-jwt.js";
 import { updateComment } from "./update-comment.controller.js";
 import { getComment } from "./get-comment.controller.js";
 import { createCommentLike } from "../likes/create-like.controller.js";
+import { getLikesByComment } from "../likes/get-likes-by-comment.controller.js";
 
 export async function commentsRoutes(app: FastifyInstance) {
     app.get('/', listComments)
@@ -14,4 +15,5 @@ export async function commentsRoutes(app: FastifyInstance) {
 
     // likes
     app.post('/:publicID/likes', { onRequest: [verifyJwt] }, createCommentLike)
+    app.get('/:publicID/likes', getLikesByComment)
 }
