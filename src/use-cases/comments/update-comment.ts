@@ -1,9 +1,12 @@
 import type { Comment } from "@/@types/prisma/client.js"
 import type { CommentsRepository } from "@/repositories/comments-repository.js"
+import type { UsersRepository } from "@/repositories/users-repository.js"
+import { NotAllowedError } from "../errors/not-allowed-error.js"
 import { ResourceNotFoundError } from "../errors/resource-not-found-error.js"
 
 interface UpdateCommentUseCaseRequest {
     publicID: string
+    requesterPublicId: string
     content: string
 }
 
@@ -12,23 +15,29 @@ type UpdateCommentUseCaseResponse = {
 }
 
 export class UpdateCommentUseCase {
-    constructor(private commentsRepository: CommentsRepository) {}
+    constructor(
+        private commentsRepository: CommentsRepository,
+        private usersRepository: UsersRepository,
+    ) {}
     async execute({
         publicID,
+        requesterPublicId,
         content,
     }: UpdateCommentUseCaseRequest): Promise<UpdateCommentUseCaseResponse> {
-        const CommentToUpdate = await this.commentsRepository.findBy({
-            publicID,
-        })
+        const commentToUpdate = await this.commentsRepository.findBy({ publicID })
 
-    if (!CommentToUpdate) {
-        throw new ResourceNotFoundError()
-    }
+        if (!commentToUpdate) {
+            throw new ResourceNotFoundError()
+        }
 
-    const comment = await this.commentsRepository.update(CommentToUpdate.id, {
-        content,
-    })
+        const requester = await this.usersRepository.findBy({ publicID: requesterPublicId })
 
-    return { comment }
+        if (requester?.id !== commentToUpdate.authorId) {
+            throw new NotAllowedError()
+        }
+
+        const comment = await this.commentsRepository.update(commentToUpdate.id, { content })
+
+        return { comment }
     }
 }

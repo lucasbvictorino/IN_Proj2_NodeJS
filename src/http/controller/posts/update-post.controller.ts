@@ -3,6 +3,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { PostPresenter } from '../presenters/post-presenter.js'
 import { makeUpdatePost } from '@/use-cases/factories/make-update-post.js'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error.js'
+import { NotAllowedError } from '@/use-cases/errors/not-allowed-error.js'
 
 
 export async function updatePost(request: FastifyRequest, reply: FastifyReply) {
@@ -12,6 +13,7 @@ export async function updatePost(request: FastifyRequest, reply: FastifyReply) {
         })
 
         const { publicID } = updatePostParamsSchema.parse(request.params)
+        const { sub: requesterPublicId } = request.user as { sub: string }
 
         const updatePostBodySchema = z.object({
             title: z.string().trim().min(1).max(100).optional(),
@@ -24,6 +26,7 @@ export async function updatePost(request: FastifyRequest, reply: FastifyReply) {
 
         const {post} = await updatePostUseCase.execute({
             publicID,
+            requesterPublicId,
             title,
             content,
         })
@@ -32,6 +35,9 @@ export async function updatePost(request: FastifyRequest, reply: FastifyReply) {
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: error.message })
+        }
+        if (error instanceof NotAllowedError) {
+            return reply.status(401).send({ message: error.message })
         }
 
         throw error

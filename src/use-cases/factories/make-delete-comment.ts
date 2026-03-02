@@ -1,8 +1,10 @@
 import { PrismaCommentsRepository } from "@/repositories/prisma/comments-prisma-repository.js";
+import { PrismaUsersRepository } from "@/repositories/prisma/users-prisma-repository.js";
 import { DeleteCommentUseCase } from "../comments/delete-comment.js";
 
 export function makeDeleteComment() {
     const commentsRepository = new PrismaCommentsRepository()
-    const deleteCommentUseCase = new DeleteCommentUseCase(commentsRepository)
+    const usersRepository = new PrismaUsersRepository()
+    const deleteCommentUseCase = new DeleteCommentUseCase(commentsRepository, usersRepository)
     return deleteCommentUseCase
 }
