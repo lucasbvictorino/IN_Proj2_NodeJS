@@ -8,6 +8,8 @@ import { getPostsByUser } from "../posts/get-posts-by-user.controller.js";
 import { authenticateUser } from "./authenticate.controller.js";
 import { verifyUserRole } from "@/http/middlewares/verify-user-role.js";
 import { verifyJwt } from "@/http/middlewares/verify-jwt.js";
+import { getCommentsByUser } from "../comments/get-comments-by-user.controller.js";
+import { getLikesByUser } from "../likes/get-likes-by-user.controller.js";
 
 export async function usersRoutes(app: FastifyInstance) {
     app.post('/', createUser)
@@ -18,7 +20,10 @@ export async function usersRoutes(app: FastifyInstance) {
     // app.get('/', listUsers)
     app.delete('/:publicID', { onRequest: [verifyJwt, verifyUserRole(['ADMIN'])] }, deleteUser)
     app.patch('/:publicID', { onRequest: [verifyJwt, verifyUserRole(['ADMIN'])] }, updateUser)
+
     app.get('/:userPublicID/posts', getPostsByUser)
+    app.get('/:userPublicID/comments', getCommentsByUser)
+    app.get('/:userPublicID/likes', getLikesByUser)
 
     // USER PROFILE ROUTES
     app.get('/me', { onRequest: [verifyJwt] }, getUserProfile)
