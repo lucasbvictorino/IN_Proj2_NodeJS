@@ -26,7 +26,7 @@ export class GetCommentsByPostUseCase {
             throw new ResourceNotFoundError()
         }
 
-        const comments = await this.commentsRepository.findByAuthorId(Post.id)
+        const comments = await this.commentsRepository.findByPostId(Post.id)
 
         return { comments }
     }

@@ -8,9 +8,9 @@ export async function getLikesByComment(
     request: FastifyRequest, reply: FastifyReply) {
         try {
             const paramsSchema = z.object({
-                commentPublicID: z.string()
+                publicID: z.string()
             })
-            const { commentPublicID } = paramsSchema.parse(request.params)
+            const { publicID: commentPublicID } = paramsSchema.parse(request.params)
 
             const useCase = makeGetLikesByComment()
             const { likes } = await useCase.execute({
