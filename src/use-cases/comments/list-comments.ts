@@ -1,16 +1,15 @@
-import type { Comment } from "@/@types/prisma/client.js"
-import type { CommentsRepository } from "@/repositories/comments-repository.js"
+import type { Comment } from '@/@types/prisma/client.js'
+import type { CommentsRepository } from '@/repositories/comments-repository.js'
 
 type ListCommentUseCaseResponse = {
-    comments: Comment[]
+  comments: Comment[]
 }
 
 export class ListCommentUseCase {
-    constructor(private commentsRepository: CommentsRepository) {}
-    async execute(): Promise<ListCommentUseCaseResponse> {
+  constructor(private commentsRepository: CommentsRepository) {}
+  async execute(): Promise<ListCommentUseCaseResponse> {
+    const comments = await this.commentsRepository.list()
 
-        const comments = await this.commentsRepository.list()
-
-        return { comments }
-    }
+    return { comments }
+  }
 }

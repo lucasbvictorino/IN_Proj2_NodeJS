@@ -1,28 +1,28 @@
-import type { Comment } from "@/@types/prisma/client.js"
-import type { CommentsRepository } from "@/repositories/comments-repository.js"
-import { ResourceNotFoundError } from "../errors/resource-not-found-error.js"
+import type { Comment } from '@/@types/prisma/client.js'
+import type { CommentsRepository } from '@/repositories/comments-repository.js'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error.js'
 
 interface GetCommentUseCaseRequest {
-    publicID: string
+  publicID: string
 }
 
 type GetCommentUseCaseResponse = {
-    comment: Comment
+  comment: Comment
 }
 
 export class GetCommentUseCase {
-    constructor(private commentsRepository: CommentsRepository) {}
-    async execute({
-        publicID
-    }: GetCommentUseCaseRequest): Promise<GetCommentUseCaseResponse> {
-        const comment = await this.commentsRepository.findBy({
-            publicID,
-        })
+  constructor(private commentsRepository: CommentsRepository) {}
+  async execute({
+    publicID,
+  }: GetCommentUseCaseRequest): Promise<GetCommentUseCaseResponse> {
+    const comment = await this.commentsRepository.findBy({
+      publicID,
+    })
 
     if (!comment) {
-        throw new ResourceNotFoundError()
+      throw new ResourceNotFoundError()
     }
 
     return { comment }
-    }
+  }
 }

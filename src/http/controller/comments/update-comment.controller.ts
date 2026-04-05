@@ -1,43 +1,45 @@
-import { z } from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { CommentPresenter } from '../presenters/comment-presenter.js'
-import { makeUpdateComment } from '@/use-cases/factories/make-update-comment.js'
-import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error.js'
+import { z } from 'zod'
 import { NotAllowedError } from '@/use-cases/errors/not-allowed-error.js'
+import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error.js'
+import { makeUpdateComment } from '@/use-cases/factories/make-update-comment.js'
+import { CommentPresenter } from '../presenters/comment-presenter.js'
 
+export async function updateComment(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  try {
+    const updateCommentParamsSchema = z.object({
+      publicID: z.string(),
+    })
 
-export async function updateComment(request: FastifyRequest, reply: FastifyReply) {
-    try {
-        const updateCommentParamsSchema = z.object({
-            publicID: z.string(),
-        })
+    const { publicID } = updateCommentParamsSchema.parse(request.params)
+    const { sub: requesterPublicId } = request.user as { sub: string }
 
-        const { publicID } = updateCommentParamsSchema.parse(request.params)
-        const { sub: requesterPublicId } = request.user as { sub: string }
+    const updateCommentBodySchema = z.object({
+      content: z.string().trim().min(1).max(2000),
+    })
 
-        const updateCommentBodySchema = z.object({
-            content: z.string().trim().min(1).max(2000),
-        })
+    const { content } = updateCommentBodySchema.parse(request.body)
 
-        const { content } = updateCommentBodySchema.parse(request.body)
+    const updateCommentUseCase = makeUpdateComment()
 
-        const updateCommentUseCase = makeUpdateComment()
+    const { comment } = await updateCommentUseCase.execute({
+      publicID,
+      requesterPublicId,
+      content,
+    })
 
-        const { comment } = await updateCommentUseCase.execute({
-            publicID,
-            requesterPublicId,
-            content,
-        })
-
-        return reply.status(200).send(CommentPresenter.toHTTP(comment))
-    } catch (error) {
-        if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({ message: error.message })
-        }
-        if (error instanceof NotAllowedError) {
-            return reply.status(401).send({ message: error.message })
-        }
-
-        throw error
+    return reply.status(200).send(CommentPresenter.toHTTP(comment))
+  } catch (error) {
+    if (error instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: error.message })
     }
+    if (error instanceof NotAllowedError) {
+      return reply.status(401).send({ message: error.message })
+    }
+
+    throw error
+  }
 }

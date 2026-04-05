@@ -20,7 +20,7 @@ enum USER_ROLE {
 
 model User {
   id Int @id @default(autoincrement())
-  publicID String @unique @default(uuid(7)) @map("public_id")
+  publicId String @unique @default(uuid(7)) @map("public_id")
 
   name String
   email String @unique
