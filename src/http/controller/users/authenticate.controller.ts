@@ -25,7 +25,7 @@ export async function authenticateUser(
 
     const token = await reply.jwtSign(
       {
-        sub: user.publicID,
+        sub: user.publicId,
         role: user.role,
       },
       { expiresIn: '1d' },

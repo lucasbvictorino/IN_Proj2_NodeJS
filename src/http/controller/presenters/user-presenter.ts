@@ -16,7 +16,7 @@ export class UserPresenter {
     }
 
     return {
-      id: input.publicID,
+      id: input.publicId,
       name: input.name,
       email: input.email,
       profilePicture: input.profilePicture,

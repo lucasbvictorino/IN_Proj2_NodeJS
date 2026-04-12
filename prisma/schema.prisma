@@ -25,6 +25,8 @@ model User {
   name String
   email String @unique
   passwordHash String @map("password_hash")
+  token String? @unique
+  tokenExpiresAt DateTime? @map("token_expires_at")
   profilePicture String? @map("profile_picture")
   role USER_ROLE @default(DEFAULT)
 

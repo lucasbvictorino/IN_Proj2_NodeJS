@@ -3,7 +3,7 @@ import type { UsersRepository } from '@/repositories/users-repository.js'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error.js'
 
 interface GetUserUseCaseRequest {
-  publicID: string
+  publicId: string
 }
 
 type GetUserUseCaseResponse = {
@@ -13,10 +13,10 @@ type GetUserUseCaseResponse = {
 export class GetUserUseCase {
   constructor(private usersRepository: UsersRepository) {}
   async execute({
-    publicID,
+    publicId,
   }: GetUserUseCaseRequest): Promise<GetUserUseCaseResponse> {
     const user = await this.usersRepository.findBy({
-      publicID,
+      publicId,
     })
 
     if (!user) {

@@ -9,12 +9,12 @@ export async function getUserProfile(
   reply: FastifyReply,
 ) {
   try {
-    const { sub: publicID } = request.user as { sub: string }
+    const { sub: publicId } = request.user as { sub: string }
 
     const getUserUseCase = makeGetUser()
 
     const { user } = await getUserUseCase.execute({
-      publicID,
+      publicId,
     })
 
     return reply.status(200).send(UserPresenter.toHTTP(user))
@@ -30,15 +30,15 @@ export async function getUserProfile(
 export async function getUser(request: FastifyRequest, reply: FastifyReply) {
   try {
     const getUserParamsSchema = z.object({
-      publicID: z.string(),
+      publicId: z.string(),
     })
 
-    const { publicID } = getUserParamsSchema.parse(request.params)
+    const { publicId } = getUserParamsSchema.parse(request.params)
 
     const getUserUseCase = makeGetUser()
 
     const { user } = await getUserUseCase.execute({
-      publicID,
+      publicId,
     })
 
     return reply.status(200).send(UserPresenter.toHTTP(user))
