@@ -31,7 +31,7 @@ export class UpdateCommentUseCase {
     }
 
     const requester = await this.usersRepository.findBy({
-      publicID: requesterPublicId,
+      publicId: requesterPublicId,
     })
 
     if (requester?.id !== commentToUpdate.authorId) {

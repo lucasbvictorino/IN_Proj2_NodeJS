@@ -7,4 +7,5 @@ export interface PostsRepository {
   delete(id: number): Promise<void>
   update(id: number, data: Prisma.PostUpdateInput): Promise<Post>
   findByAuthorId(authorId: number): Promise<Post[]>
+  findMostLikedInLast24Hours(limit?: number): Promise<Post[]>
 }

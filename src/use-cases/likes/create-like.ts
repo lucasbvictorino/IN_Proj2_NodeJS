@@ -28,7 +28,7 @@ export class CreateLikeUseCase {
     postPublicId,
     commentPublicId,
   }: CreateLikeUseCaseRequest): Promise<CreateLikeUseCaseResponse> {
-    const user = await this.usersRepository.findBy({ publicID: userPublicId })
+    const user = await this.usersRepository.findBy({ publicId: userPublicId })
 
     if (!user) {
       throw new ResourceNotFoundError()

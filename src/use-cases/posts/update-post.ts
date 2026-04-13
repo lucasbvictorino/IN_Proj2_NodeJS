@@ -33,7 +33,7 @@ export class UpdatePostUseCase {
     }
 
     const requester = await this.usersRepository.findBy({
-      publicID: requesterPublicId,
+      publicId: requesterPublicId,
     })
 
     if (requester?.id !== postToUpdate.authorId) {

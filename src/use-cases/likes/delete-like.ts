@@ -21,7 +21,7 @@ export class DeleteLikeUseCase {
     }
 
     const requester = await this.usersRepository.findBy({
-      publicID: requesterPublicId,
+      publicId: requesterPublicId,
     })
 
     if (requester?.id !== like.userId) {

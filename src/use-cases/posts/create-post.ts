@@ -24,7 +24,7 @@ export class CreatePostUseCase {
     authorPublicId,
   }: CreatePostUseCaseRequest): Promise<CreatePostUseCaseResponse> {
     const user = await this.usersRepository.findBy({
-      publicID: authorPublicId,
+      publicId: authorPublicId,
     })
 
     if (!user) {

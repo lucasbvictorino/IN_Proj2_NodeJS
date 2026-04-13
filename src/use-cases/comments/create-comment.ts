@@ -26,7 +26,7 @@ export class CreateCommentUseCase {
     postPublicId,
   }: CreateCommentUseCaseRequest): Promise<CreateCommentUseCaseResponse> {
     const user = await this.usersRepository.findBy({
-      publicID: authorPublicId,
+      publicId: authorPublicId,
     })
 
     if (!user) {

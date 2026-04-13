@@ -21,7 +21,7 @@ export class DeleteCommentUseCase {
     }
 
     const requester = await this.usersRepository.findBy({
-      publicID: requesterPublicId,
+      publicId: requesterPublicId,
     })
 
     if (requester?.id !== comment.authorId) {

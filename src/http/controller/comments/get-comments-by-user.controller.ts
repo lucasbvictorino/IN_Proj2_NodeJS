@@ -10,13 +10,13 @@ export async function getCommentsByUser(
 ) {
   try {
     const paramsSchema = z.object({
-      userPublicID: z.string(),
+      userPublicId: z.string(),
     })
-    const { userPublicID } = paramsSchema.parse(request.params)
+    const { userPublicId } = paramsSchema.parse(request.params)
 
     const useCase = makeGetCommentsByUser()
     const { comments } = await useCase.execute({
-      userPublicID,
+      userPublicId,
     })
 
     return reply

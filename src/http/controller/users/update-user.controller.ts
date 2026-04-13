@@ -9,7 +9,7 @@ export async function updateUserProfile(
   reply: FastifyReply,
 ) {
   try {
-    const { sub: publicID } = request.user as { sub: string }
+    const { sub: publicId } = request.user as { sub: string }
 
     const updateUserBodySchema = z.object({
       name: z.string().trim().min(1).max(100).optional(),
@@ -21,7 +21,7 @@ export async function updateUserProfile(
     const updateUserUseCase = makeUpdateUser()
 
     const { user } = await updateUserUseCase.execute({
-      publicID,
+      publicId,
       name,
       email,
     })
@@ -39,10 +39,10 @@ export async function updateUserProfile(
 export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
   try {
     const updateUserParamsSchema = z.object({
-      publicID: z.string(),
+      publicId: z.string(),
     })
 
-    const { publicID } = updateUserParamsSchema.parse(request.params)
+    const { publicId } = updateUserParamsSchema.parse(request.params)
 
     const updateUserBodySchema = z.object({
       name: z.string().trim().min(1).max(100).optional(),
@@ -54,7 +54,7 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
     const updateUserUseCase = makeUpdateUser()
 
     const { user } = await updateUserUseCase.execute({
-      publicID,
+      publicId,
       name,
       email,
     })

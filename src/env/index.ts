@@ -20,6 +20,8 @@ const envSchema = z.object({
     .transform((value) => value === 'true'),
   FORGOT_PASSWORD_URL: z.url(),
   FORGOT_PASSWORD_EXPIRES_IN_MINUTES: z.coerce.number().int().min(1).default(15),
+  CRON_TEST: z.string().default('*/2 * * * *'),
+  CRON_SCHEDULE: z.string().default('0 23 * * *'),
 })
 
 const _env = envSchema.safeParse(process.env)

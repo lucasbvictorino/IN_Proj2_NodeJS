@@ -2,14 +2,14 @@ import type { UsersRepository } from '@/repositories/users-repository.js'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error.js'
 
 interface DeleteUserUseCaseRequest {
-  publicID: string
+  publicId: string
 }
 
 export class DeleteUserUseCase {
   constructor(private usersRepository: UsersRepository) {}
-  async execute({ publicID }: DeleteUserUseCaseRequest) {
+  async execute({ publicId }: DeleteUserUseCaseRequest) {
     const user = await this.usersRepository.findBy({
-      publicID,
+      publicId,
     })
 
     if (!user) {

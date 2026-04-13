@@ -3,7 +3,7 @@ import type { UsersRepository } from '@/repositories/users-repository.js'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error.js'
 
 interface UpdateUserUseCaseRequest {
-  publicID: string
+  publicId: string
   name?: string
   email?: string
 }
@@ -15,12 +15,12 @@ type UpdateUserUseCaseResponse = {
 export class UpdateUserUseCase {
   constructor(private usersRepository: UsersRepository) {}
   async execute({
-    publicID,
+    publicId,
     name,
     email,
   }: UpdateUserUseCaseRequest): Promise<UpdateUserUseCaseResponse> {
     const userToUpdate = await this.usersRepository.findBy({
-      publicID,
+      publicId,
     })
 
     if (!userToUpdate) {

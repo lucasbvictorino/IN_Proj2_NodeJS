@@ -8,12 +8,12 @@ export async function deleteUserProfile(
   reply: FastifyReply,
 ) {
   try {
-    const { sub: publicID } = request.user as { sub: string }
+    const { sub: publicId } = request.user as { sub: string }
 
     const deleteUserUseCase = makeDeleteUser()
 
     await deleteUserUseCase.execute({
-      publicID,
+      publicId,
     })
 
     return reply.status(200).send()
@@ -29,15 +29,15 @@ export async function deleteUserProfile(
 export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
   try {
     const deleteUserParamsSchema = z.object({
-      publicID: z.string(),
+      publicId: z.string(),
     })
 
-    const { publicID } = deleteUserParamsSchema.parse(request.params)
+    const { publicId } = deleteUserParamsSchema.parse(request.params)
 
     const deleteUserUseCase = makeDeleteUser()
 
     await deleteUserUseCase.execute({
-      publicID,
+      publicId,
     })
 
     return reply.status(200).send()

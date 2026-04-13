@@ -21,7 +21,7 @@ export class DeletePostUseCase {
     }
 
     const requester = await this.usersRepository.findBy({
-      publicID: requesterPublicId,
+      publicId: requesterPublicId,
     })
 
     if (requester?.id !== post.authorId) {

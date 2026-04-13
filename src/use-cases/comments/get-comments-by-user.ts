@@ -4,7 +4,7 @@ import type { UsersRepository } from '@/repositories/users-repository.js'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error.js'
 
 interface GetCommentsByUserUseCaseRequest {
-  userPublicID: string
+  userPublicId: string
 }
 
 type GetCommentsByUserUseCaseResponse = {
@@ -17,10 +17,10 @@ export class GetCommentsByUserUseCase {
     private commentsRepository: CommentsRepository,
   ) {}
   async execute({
-    userPublicID,
+    userPublicId,
   }: GetCommentsByUserUseCaseRequest): Promise<GetCommentsByUserUseCaseResponse> {
     const user = await this.usersRepository.findBy({
-      publicID: userPublicID,
+      publicId: userPublicId,
     })
     if (!user) {
       throw new ResourceNotFoundError()

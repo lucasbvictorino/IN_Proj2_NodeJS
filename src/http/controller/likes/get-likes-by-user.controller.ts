@@ -10,13 +10,13 @@ export async function getLikesByUser(
 ) {
   try {
     const paramsSchema = z.object({
-      userPublicID: z.string(),
+      userPublicId: z.string(),
     })
-    const { userPublicID } = paramsSchema.parse(request.params)
+    const { userPublicId } = paramsSchema.parse(request.params)
 
     const useCase = makeGetLikesByUser()
     const { likes } = await useCase.execute({
-      userPublicID,
+      userPublicId,
     })
 
     return reply.status(200).send({ likes: LikePresenter.toHTTP(likes) })
