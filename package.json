@@ -27,7 +27,7 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.10",
+    "@biomejs/biome": "2.4.14",
     "@fastify/jwt": "10.0.0",
     "@types/node": "25.3.0",
     "@types/node-cron": "3.0.11",
