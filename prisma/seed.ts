@@ -9,7 +9,7 @@ export async function seed() {
     },
     update: {},
     create: {
-      publicID: '00000000-0000-0000-0000-000000000001',
+      publicId: '00000000-0000-0000-0000-000000000001',
       name: 'Admin',
       email: 'admin@example.com',
       role: 'ADMIN',

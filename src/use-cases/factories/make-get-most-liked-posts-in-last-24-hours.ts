@@ -3,7 +3,8 @@ import { GetMostLikedPostsInLast24HoursUseCase } from '../posts/get-most-liked-p
 
 export function makeGetMostLikedPostsInLast24Hours() {
   const postsRepository = new PrismaPostsRepository()
-  const getMostLikedPostsInLast24HoursUseCase = new GetMostLikedPostsInLast24HoursUseCase(postsRepository)
+  const getMostLikedPostsInLast24HoursUseCase =
+    new GetMostLikedPostsInLast24HoursUseCase(postsRepository)
 
   return getMostLikedPostsInLast24HoursUseCase
 }

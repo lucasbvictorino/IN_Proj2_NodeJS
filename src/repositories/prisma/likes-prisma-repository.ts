@@ -34,4 +34,17 @@ export class PrismaLikesRepository implements LikesRepository {
       where: { commentId },
     })
   }
+
+  async findTopLikedInLast24Hours() {
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000)
+
+    return await prisma.like.findMany({
+      where: {
+        createdAt: { gte: since },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+  }
 }
