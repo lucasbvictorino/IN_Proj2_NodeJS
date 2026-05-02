@@ -17,7 +17,8 @@ export function startSendMostLikedPostsSummaryJob() {
     try {
       const sendMostLikedPostsSummaryUseCase = makeSendMostLikedPostsSummary()
 
-      const { sent, totalPosts } = await sendMostLikedPostsSummaryUseCase.execute()
+      const { sent, totalPosts } =
+        await sendMostLikedPostsSummaryUseCase.execute()
 
       if (sent) {
         console.log(

@@ -37,7 +37,8 @@ export class SendMostLikedPostsSummaryUseCase {
       'Resumo diário - posts mais curtidos nas últimas 24 horas:',
       '',
       ...posts.map(
-        (post, index) => `${index + 1}. ${post.title} (publicId: ${post.publicID})`,
+        (post, index) =>
+          `${index + 1}. ${post.title} (publicId: ${post.publicID})`,
       ),
     ].join('\n')
 
