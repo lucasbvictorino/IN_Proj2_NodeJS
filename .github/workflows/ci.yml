@@ -52,12 +52,6 @@ jobs:
           npm run lint
           echo "✅ Lint passed" >> $GITHUB_STEP_SUMMARY
 
-      # Type checking
-      - name: Type Check
-        run: |
-          npx tsc --noEmit
-          echo "✅ Type check passed" >> $GITHUB_STEP_SUMMARY
-
       # Geracao explicita do Prisma Client
       - name: Generate Prisma Client
         env:
@@ -65,6 +59,12 @@ jobs:
         run: |
           npx prisma generate
           echo "✅ Prisma Client generated" >> $GITHUB_STEP_SUMMARY
+
+      # Type checking
+      - name: Type Check
+        run: |
+          npx tsc --noEmit
+          echo "✅ Type check passed" >> $GITHUB_STEP_SUMMARY
       
       - name: Build
         env:
