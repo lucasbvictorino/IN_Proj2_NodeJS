@@ -2,6 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials-error.js'
 import { makeAuthenticateUsers } from '@/use-cases/factories/make-authenticate.js'
+import type { TokenGenerator } from '@/use-cases/users/authenticate.js'
 import { UserPresenter } from '../presenters/user-presenter.js'
 
 export async function authenticateUser(
@@ -16,20 +17,19 @@ export async function authenticateUser(
 
     const { password, email } = authenticateUserBodySchema.parse(request.body)
 
-    const authenticateUserUseCase = makeAuthenticateUsers()
+    const tokenGenerator: TokenGenerator = {
+      generate: (payload) =>
+        reply.jwtSign(payload, {
+          expiresIn: '1d',
+        }),
+    }
 
-    const { user } = await authenticateUserUseCase.execute({
+    const authenticateUserUseCase = makeAuthenticateUsers(tokenGenerator)
+
+    const { user, token } = await authenticateUserUseCase.execute({
       email,
       password,
     })
-
-    const token = await reply.jwtSign(
-      {
-        sub: user.publicId,
-        role: user.role,
-      },
-      { expiresIn: '1d' },
-    )
 
     return reply.status(201).send({ token, user: UserPresenter.toHTTP(user) })
   } catch (error) {
